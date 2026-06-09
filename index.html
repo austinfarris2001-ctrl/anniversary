@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Austin & Lisa 💕</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --rose: #f4a7b9;
+    --rose-light: #fde8ef;
+    --rose-dark: #c2758a;
+    --lav: #c9b8e8;
+    --lav-light: #ede7f7;
+    --mint-light: #e0f5ef;
+    --cream: #fdf8f2;
+    --peach: #fcd5b4;
+    --peach-light: #fef0e4;
+    --text: #5a3e4b;
+    --muted: #9b7a87;
+    --white: #ffffff;
+    --shadow: rgba(194,117,138,0.13);
+  }
+  body { font-family: 'Lato', sans-serif; background: var(--cream); color: var(--text); min-height: 100vh; }
+
+  /* HERO */
+  .hero {
+    text-align: center;
+    padding: 3.5rem 1rem 2rem;
+    background: linear-gradient(175deg, #fde8ef 0%, var(--cream) 100%);
+  }
+  .hero-stars { color: var(--rose); letter-spacing: 10px; font-size: 1rem; opacity: 0.6; margin-bottom: 0.8rem; }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.4rem, 7vw, 4.2rem);
+    color: var(--text); line-height: 1.1; margin-bottom: 0.5rem;
+  }
+  .hero h1 em { color: var(--rose-dark); font-style: italic; }
+  .hero .subtitle { font-size: 0.9rem; color: var(--muted); letter-spacing: 3px; text-transform: uppercase; font-weight: 300; margin-bottom: 0.9rem; }
+  .hero .badge {
+    display: inline-block;
+    background: var(--white); border: 1.5px solid var(--rose);
+    color: var(--rose-dark); font-family: 'Playfair Display', serif;
+    font-size: 1rem; padding: 0.4rem 1.5rem; border-radius: 50px;
+  }
+
+  /* COUNTER */
+  .counter {
+    display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;
+    padding: 1.5rem 1rem 0.5rem;
+    background: linear-gradient(175deg, var(--cream) 0%, #fde8ef 100%);
+  }
+  .counter-unit {
+    background: white; border: 1.5px solid var(--rose); border-radius: 14px;
+    padding: 0.7rem 1.1rem; min-width: 70px; text-align: center;
+  }
+  .counter-unit .num { font-family: 'Playfair Display', serif; font-size: 1.9rem; color: var(--rose-dark); line-height: 1; }
+  .counter-unit .lbl { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 2px; color: var(--muted); margin-top: 2px; }
+
+  /* SCOREBOARD */
+  .scoreboard {
+    display: flex; justify-content: center; align-items: stretch;
+    max-width: 420px; margin: 2rem auto 0.5rem;
+    border-radius: 20px; overflow: hidden;
+    border: 1.5px solid var(--rose);
+    box-shadow: 0 4px 20px var(--shadow);
+  }
+  .score-player { flex: 1; text-align: center; padding: 1.2rem 1rem; background: var(--white); }
+  .score-player:first-child { background: var(--rose-light); }
+  .score-player:last-child { background: var(--lav-light); }
+  .score-player .sname { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--text); margin-bottom: 0.3rem; }
+  .score-player .spts { font-size: 2.8rem; font-weight: 700; color: var(--rose-dark); line-height: 1; margin-bottom: 0.6rem; }
+  .score-player:last-child .spts { color: #7c5fae; }
+  .sbtns { display: flex; gap: 8px; justify-content: center; }
+  .sbtns button {
+    width: 36px; height: 36px; border-radius: 50%; border: 1.5px solid currentColor;
+    background: transparent; font-size: 1.3rem; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.15s, transform 0.1s;
+  }
+  .sbtns .badd { color: var(--rose-dark); }
+  .sbtns .bsub { color: var(--muted); }
+  .sbtns button:hover { background: rgba(0,0,0,0.07); }
+  .sbtns button:active { transform: scale(0.91); }
+  .sdiv { width: 1.5px; background: var(--rose); opacity: 0.35; align-self: stretch; }
+
+  /* RESET SCORE */
+  .reset-score {
+    text-align: center; margin: 0.5rem auto 2rem;
+  }
+  .reset-score button {
+    background: none; border: none; color: var(--muted);
+    font-size: 0.8rem; cursor: pointer; text-decoration: underline;
+    font-family: 'Lato', sans-serif;
+  }
+  .reset-score button:hover { color: var(--rose-dark); }
+
+  /* TABS */
+  .tabs { display: flex; justify-content: center; gap: 0.5rem; flex-wrap: wrap; margin: 0 1rem 2rem; }
+  .tab-btn {
+    font-family: 'Lato', sans-serif; font-size: 0.85rem; font-weight: 700;
+    letter-spacing: 1px; text-transform: uppercase;
+    padding: 0.5rem 1.3rem; border-radius: 50px;
+    border: 1.5px solid var(--rose); background: transparent;
+    color: var(--rose-dark); cursor: pointer; transition: background 0.15s, color 0.15s;
+  }
+  .tab-btn.active, .tab-btn:hover { background: var(--rose); color: white; }
+
+  /* SECTIONS */
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* WHEEL */
+  .wheel-section { max-width: 520px; margin: 0 auto; padding: 0 1rem 3rem; text-align: center; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: 1.55rem; color: var(--text); margin-bottom: 0.25rem; }
+  .section-sub { color: var(--muted); font-size: 0.9rem; margin-bottom: 1.5rem; }
+  .wheel-wrap { position: relative; width: 300px; height: 300px; margin: 0 auto 1.5rem; }
+  .wheel-wrap canvas { border-radius: 50%; box-shadow: 0 8px 30px var(--shadow); display: block; }
+  .wheel-pointer {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+    width: 22px; height: 22px; background: white;
+    border: 3px solid var(--rose-dark); border-radius: 50%; z-index: 10;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  }
+  .spin-btn {
+    font-family: 'Playfair Display', serif; font-size: 1.1rem; font-style: italic;
+    background: var(--rose); color: white; border: none;
+    padding: 0.75rem 2.5rem; border-radius: 50px; cursor: pointer;
+    box-shadow: 0 4px 16px var(--shadow); transition: background 0.2s, transform 0.1s;
+  }
+  .spin-btn:hover { background: var(--rose-dark); }
+  .spin-btn:active { transform: scale(0.97); }
+  .spin-btn:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+  .spin-result {
+    margin-top: 1.2rem; min-height: 2rem;
+    font-family: 'Playfair Display', serif; font-size: 1.4rem;
+    color: var(--rose-dark); font-style: italic;
+  }
+
+  /* DRINK CARDS */
+  .drinks-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 1rem; max-width: 700px; margin: 2rem auto 0; padding: 0 1rem 3rem;
+  }
+  .drink-card {
+    background: white; border: 1.5px solid var(--peach); border-radius: 16px;
+    padding: 1rem 1.1rem;
+  }
+  .drink-card h3 { font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--rose-dark); margin-bottom: 0.35rem; }
+  .drink-card ul { list-style: none; font-size: 0.83rem; color: var(--muted); line-height: 1.75; }
+  .drink-card ul li::before { content: '· '; }
+  .shot-card { background: var(--rose-light); border-color: var(--rose); }
+
+  /* PHOTO */
+  .photo-section { max-width: 560px; margin: 0 auto; padding: 0 1rem 3rem; text-align: center; }
+  .photo-drop {
+    border: 2px dashed var(--rose); border-radius: 20px;
+    padding: 2.5rem 1.5rem; background: var(--rose-light);
+    cursor: pointer; transition: background 0.2s; position: relative;
+  }
+  .photo-drop:hover { background: #f9d5e2; }
+  .photo-drop input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
+  .photo-drop .ph-icon { font-size: 2.2rem; margin-bottom: 0.4rem; }
+  .photo-drop p { color: var(--muted); font-size: 0.9rem; }
+  .photo-preview { margin-top: 1.2rem; display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+  .photo-preview img {
+    width: 130px; height: 130px; object-fit: cover;
+    border-radius: 14px; border: 2px solid var(--rose-light);
+    box-shadow: 0 3px 12px var(--shadow);
+  }
+
+  footer {
+    text-align: center; padding: 2rem 1rem 3rem;
+    color: var(--muted); font-family: 'Playfair Display', serif;
+    font-style: italic; font-size: 0.9rem;
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-stars">✦ ✦ ✦</div>
+  <h1>Austin <em>&</em> Lisa</h1>
+  <p class="subtitle">One Whole Year of Us</p>
+  <div class="badge">June 18th, 2025 🎉</div>
+</div>
+
+<!-- COUNTER -->
+<div class="counter">
+  <div class="counter-unit"><div class="num" id="cD">0</div><div class="lbl">Days</div></div>
+  <div class="counter-unit"><div class="num" id="cH">0</div><div class="lbl">Hours</div></div>
+  <div class="counter-unit"><div class="num" id="cM">0</div><div class="lbl">Mins</div></div>
+  <div class="counter-unit"><div class="num" id="cS">0</div><div class="lbl">Secs</div></div>
+</div>
+
+<!-- SCOREBOARD -->
+<div class="scoreboard" style="margin-top:2rem;">
+  <div class="score-player">
+    <div class="sname">Austin</div>
+    <div class="spts" id="sa">0</div>
+    <div class="sbtns">
+      <button class="badd" onclick="chScore('a',1)">+</button>
+      <button class="bsub" onclick="chScore('a',-1)">−</button>
+    </div>
+  </div>
+  <div class="sdiv"></div>
+  <div class="score-player">
+    <div class="sname">Lisa</div>
+    <div class="spts" id="sl">0</div>
+    <div class="sbtns">
+      <button class="badd" onclick="chScore('l',1)">+</button>
+      <button class="bsub" onclick="chScore('l',-1)">−</button>
+    </div>
+  </div>
+</div>
+<div class="reset-score"><button onclick="resetScores()">reset scores</button></div>
+
+<!-- TABS -->
+<div class="tabs">
+  <button class="tab-btn active" onclick="showTab('games',this)">🎮 Games</button>
+  <button class="tab-btn" onclick="showTab('drinks',this)">🍹 Drinks</button>
+  <button class="tab-btn" onclick="showTab('photos',this)">📸 Photos</button>
+</div>
+
+<!-- GAMES SECTION -->
+<div id="tab-games" class="section active">
+  <div class="wheel-section">
+    <p class="section-title">What are we playing?</p>
+    <p class="section-sub">Spin to find out — no take-backs 🎲</p>
+    <div class="wheel-wrap">
+      <canvas id="gwheel" width="300" height="300"></canvas>
+      <div class="wheel-pointer"></div>
+    </div>
+    <button class="spin-btn" id="gbtn" onclick="spinWheel('g')">Spin the Wheel</button>
+    <div class="spin-result" id="gresult"></div>
+  </div>
+</div>
+
+<!-- DRINKS SECTION -->
+<div id="tab-drinks" class="section">
+  <div class="wheel-section">
+    <p class="section-title">What are we drinking?</p>
+    <p class="section-sub">Tequila, vodka, and a little adventure 🍸</p>
+    <div class="wheel-wrap">
+      <canvas id="dwheel" width="300" height="300"></canvas>
+      <div class="wheel-pointer"></div>
+    </div>
+    <button class="spin-btn" id="dbtn" onclick="spinWheel('d')">Spin the Wheel</button>
+    <div class="spin-result" id="dresult"></div>
+  </div>
+  <div class="drinks-grid">
+    <div class="drink-card">
+      <h3>🌅 Tequila Sunrise</h3>
+      <ul><li>2 oz tequila</li><li>4 oz orange juice</li><li>Grenadine (pour slowly)</li><li>Don't stir — let it layer</li></ul>
+    </div>
+    <div class="drink-card">
+      <h3>🍋 Paloma</h3>
+      <ul><li>2 oz tequila</li><li>4 oz grapefruit juice</li><li>Lime squeeze + soda</li><li>Salt rim optional</li></ul>
+    </div>
+    <div class="drink-card">
+      <h3>🍹 Margarita</h3>
+      <ul><li>2 oz tequila</li><li>1 oz lime juice</li><li>1 oz triple sec</li><li>Shake with ice, salt rim</li></ul>
+    </div>
+    <div class="drink-card">
+      <h3>🍊 Screwdriver</h3>
+      <ul><li>2 oz vodka</li><li>4 oz orange juice</li><li>Stir gently over ice</li><li>Orange slice garnish</li></ul>
+    </div>
+    <div class="drink-card">
+      <h3>🫚 Moscow Mule</h3>
+      <ul><li>2 oz vodka</li><li>4 oz ginger beer</li><li>Squeeze of lime</li><li>Best in a copper mug</li></ul>
+    </div>
+    <div class="drink-card">
+      <h3>🍒 Vodka Cranberry</h3>
+      <ul><li>2 oz vodka</li><li>4 oz cranberry juice</li><li>Squeeze of lime</li><li>Lime wedge garnish</li></ul>
+    </div>
+    <div class="drink-card shot-card">
+      <h3>🥃 Take a Shot!!!</h3>
+      <ul><li>No mixing required</li><li>Just courage</li><li>Bottoms up 🥂</li></ul>
+    </div>
+  </div>
+</div>
+
+<!-- PHOTOS SECTION -->
+<div id="tab-photos" class="section">
+  <div class="photo-section">
+    <p class="section-title">Our Moments</p>
+    <p class="section-sub">Add your favorite photos from this past year 💕</p>
+    <div class="photo-drop">
+      <input type="file" accept="image/*" multiple onchange="addPhotos(event)">
+      <div class="ph-icon">📷</div>
+      <p>Tap to add photos</p>
+    </div>
+    <div class="photo-preview" id="photoPreview"></div>
+  </div>
+</div>
+
+<footer>Happy 1 Year, Austin & Lisa &nbsp;✦&nbsp; Here's to many more</footer>
+
+<script>
+  // COUNTER
+  const anniv = new Date('2025-06-18T00:00:00');
+  function updateCounter() {
+    const diff = Date.now() - anniv.getTime();
+    if (diff < 0) return;
+    const s = Math.floor(diff/1000), m = Math.floor(s/60), h = Math.floor(m/60), d = Math.floor(h/24);
+    document.getElementById('cD').textContent = d;
+    document.getElementById('cH').textContent = h % 24;
+    document.getElementById('cM').textContent = m % 60;
+    document.getElementById('cS').textContent = s % 60;
+  }
+  updateCounter(); setInterval(updateCounter, 1000);
+
+  // SCORES
+  const sc = {a:0, l:0};
+  function chScore(p, d) { sc[p] = Math.max(0, sc[p]+d); document.getElementById('s'+p).textContent = sc[p]; }
+  function resetScores() { sc.a=0; sc.l=0; document.getElementById('sa').textContent=0; document.getElementById('sl').textContent=0; }
+
+  // TABS
+  function showTab(name, btn) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-'+name).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  // WHEEL DATA
+  const GAMES = ['Cup Pong','Avalanche','Rummikub','Super Auto Pets','Numbers','Rack-O','Farkle','iMessage Game'];
+  const DRINKS = ['Paloma','Margarita','Tequila Sunrise','Screwdriver','Moscow Mule','Vodka Cranberry','Take a Shot!!!'];
+  const COLORS = ['#f4a7b9','#c9b8e8','#a8d8c8','#fcd5b4','#b8d4f4','#f8c9a8','#d4b8e8','#a8d4b8','#f4b8c9','#e8c9b8'];
+
+  const state = { g: { items: GAMES, rot: 0, spinning: false }, d: { items: DRINKS, rot: 0, spinning: false } };
+
+  function drawWheel(id, items, rot) {
+    const canvas = document.getElementById(id);
+    const ctx = canvas.getContext('2d');
+    const cx = canvas.width/2, cy = canvas.height/2, r = cx-4;
+    const arc = 2*Math.PI/items.length;
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    items.forEach((item,i) => {
+      const s = rot + i*arc, e = s+arc;
+      ctx.beginPath(); ctx.moveTo(cx,cy); ctx.arc(cx,cy,r,s,e); ctx.closePath();
+      ctx.fillStyle = COLORS[i%COLORS.length]; ctx.fill();
+      ctx.strokeStyle='#fff'; ctx.lineWidth=2; ctx.stroke();
+      ctx.save(); ctx.translate(cx,cy); ctx.rotate(s+arc/2);
+      ctx.textAlign='right'; ctx.fillStyle='#5a3e4b';
+      ctx.font = `${item.length>10?'10':'12'}px Lato,sans-serif`;
+      ctx.fillText(item, r-10, 4); ctx.restore();
+    });
+    ctx.beginPath(); ctx.arc(cx,cy,12,0,2*Math.PI);
+    ctx.fillStyle='#fff'; ctx.fill();
+    ctx.strokeStyle='#c2758a'; ctx.lineWidth=2.5; ctx.stroke();
+  }
+
+  function spinWheel(key) {
+    const w = state[key];
+    if (w.spinning) return;
+    w.spinning = true;
+    const btn = document.getElementById(key+'btn');
+    const res = document.getElementById(key+'result');
+    const cid = key+'wheel';
+    btn.disabled = true; res.textContent = '';
+    const total = 2*Math.PI*(5+Math.random()*6);
+    const dur = 3200+Math.random()*800;
+    const t0 = performance.now(), r0 = w.rot;
+    function ease(t){return 1-Math.pow(1-t,3);}
+    function frame(now) {
+      const t = Math.min((now-t0)/dur,1);
+      w.rot = r0+total*ease(t);
+      drawWheel(cid, w.items, w.rot);
+      if (t<1) { requestAnimationFrame(frame); return; }
+      w.spinning = false; btn.disabled = false;
+      const arc = 2*Math.PI/w.items.length;
+      const norm = ((w.rot%(2*Math.PI))+2*Math.PI)%(2*Math.PI);
+      const idx = Math.floor(((2*Math.PI-norm)%(2*Math.PI))/arc)%w.items.length;
+      res.textContent = '→ ' + w.items[idx] + '!';
+    }
+    requestAnimationFrame(frame);
+  }
+
+  function addPhotos(e) {
+    const preview = document.getElementById('photoPreview');
+    Array.from(e.target.files).forEach(file => {
+      const img = document.createElement('img');
+      img.src = URL.createObjectURL(file);
+      preview.appendChild(img);
+    });
+  }
+
+  drawWheel('gwheel', GAMES, 0);
+  drawWheel('dwheel', DRINKS, 0);
+</script>
+</body>
+</html>
