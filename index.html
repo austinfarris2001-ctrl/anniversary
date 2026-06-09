@@ -1,1 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Austin & Lisa 💕</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+    :root {
+      --blush:    #F9D9E3;
+      --rose:     #E8A0B4;
+      --lavender: #D8C8F0;
+      --mint:     #C4E8DC;
+      --cream:    #FFF8F5;
+      --text:     #5A3A4A;
+      --soft:     #9B7A8A;
+      --white:    #FFFFFF;
+    }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── FLOATING HEARTS ── */
+    .hearts-bg {
+      position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden;
+    }
+    .heart {
+      position: absolute; font-size: 1.2rem; opacity: 0.15;
+      animation: floatUp linear infinite;
+    }
+    @keyframes floatUp {
+      0%   { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+      10%  { opacity: 0.15; }
+      90%  { opacity: 0.15; }
+      100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative; z-index: 1;
+      text-align: center;
+      padding: 4rem 1rem 2rem;
+      background: linear-gradient(160deg, var(--blush) 0%, var(--lavender) 50%, var(--mint) 100%);
+    }
+    .hero-emoji { font-size: 3rem; margin-bottom: 0.5rem; display: block; }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.2rem, 6vw, 4rem);
+      font-weight: 700;
+      line-height: 1.15;
+      color: var(--text);
+      letter-spacing: -0.01em;
+    }
+    .hero h1 em { font-style: italic; color: #C0608A; }
+    .hero-sub {
+      margin-top: 0.75rem;
+      font-size: 1rem;
+      color: var(--soft);
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    /* ── COUNTER ── */
+    .counter-bar {
+      position: relative; z-index: 1;
+      display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap;
+      padding: 1.5rem 1rem 2rem;
+      background: linear-gradient(160deg, var(--blush) 0%, var(--lavender) 50%, var(--mint) 100%);
+    }
+    .counter-unit {
+      background: rgba(255,255,255,0.7);
+      border-radius: 16px;
+      padding: 0.75rem 1.25rem;
+      min-width: 80px;
+      text-align: center;
+      backdrop-filter: blur(6px);
+      box-shadow: 0 2px 12px rgba(200,140,170,0.15);
+    }
+    .counter-unit .num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem; font-weight: 700; color: #C0608A; line-height: 1;
+    }
+    .counter-unit .label {
+      font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em;
+      color: var(--soft); margin-top: 0.2rem;
+    }
+
+    /* ── SECTION WRAPPER ── */
+    .section {
+      position: relative; z-index: 1;
+      max-width: 700px;
+      margin: 0 auto 2.5rem;
+      padding: 0 1rem;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem; font-weight: 700;
+      text-align: center;
+      margin-bottom: 1.25rem;
+      color: var(--text);
+    }
+    .section-title span { font-style: italic; color: #C0608A; }
+
+    /* ── CARD ── */
+    .card {
+      background: var(--white);
+      border-radius: 24px;
+      padding: 2rem;
+      box-shadow: 0 4px 24px rgba(200,140,170,0.12);
+    }
+
+    /* ── WHEEL ── */
+    .wheel-wrap { display: flex; flex-direction: column; align-items: center; gap: 1.25rem; }
+    canvas#gameWheel, canvas#drinkWheel { border-radius: 50%; box-shadow: 0 4px 20px rgba(200,140,170,0.25); }
+
+    .spin-btn {
+      background: linear-gradient(135deg, #E8A0B4, #C0608A);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 0.75rem 2.5rem;
+      font-family: 'Nunito', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(192,96,138,0.3);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .spin-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(192,96,138,0.4); }
+    .spin-btn:active { transform: translateY(0); }
+    .spin-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+    .result-box {
+      text-align: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #C0608A;
+      min-height: 2rem;
+      transition: opacity 0.3s;
+    }
+
+    .wheel-tabs { display: flex; gap: 0.75rem; margin-bottom: 1rem; flex-wrap: wrap; justify-content: center; }
+    .tab-btn {
+      background: var(--blush);
+      border: 2px solid transparent;
+      border-radius: 50px;
+      padding: 0.45rem 1.2rem;
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.9rem; font-weight: 700;
+      color: var(--text);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .tab-btn.active { background: #C0608A; color: white; border-color: #C0608A; }
+
+    /* ── PHOTO SPOT ── */
+    .photo-upload-area {
+      border: 2.5px dashed var(--rose);
+      border-radius: 20px;
+      padding: 2.5rem 1rem;
+      text-align: center;
+      cursor: pointer;
+      transition: background 0.2s;
+      position: relative;
+    }
+    .photo-upload-area:hover { background: var(--blush); }
+    .photo-upload-area input { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
+    .photo-upload-area .upload-icon { font-size: 2.5rem; display: block; margin-bottom: 0.5rem; }
+    .photo-upload-area p { color: var(--soft); font-size: 0.95rem; }
+    #photoPreview {
+      display: none; width: 100%; max-height: 340px;
+      object-fit: cover; border-radius: 16px; margin-top: 1rem;
+      box-shadow: 0 4px 16px rgba(200,140,170,0.2);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      position: relative; z-index: 1;
+      text-align: center;
+      padding: 2rem 1rem 3rem;
+      font-size: 0.85rem;
+      color: var(--soft);
+    }
+    footer strong { color: #C0608A; font-style: italic; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .heart { animation: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Floating hearts background -->
+<div class="hearts-bg" id="heartsBg"></div>
+
+<!-- ── HERO ── -->
+<header class="hero">
+  <span class="hero-emoji">💕</span>
+  <h1>Austin &amp; <em>Lisa</em></h1>
+  <p class="hero-sub">One whole year of us &nbsp;·&nbsp; June 18, 2025</p>
+</header>
+
+<!-- ── ANNIVERSARY COUNTER ── -->
+<div class="counter-bar" id="counterBar">
+  <div class="counter-unit"><div class="num" id="cDays">0</div><div class="label">Days</div></div>
+  <div class="counter-unit"><div class="num" id="cHours">0</div><div class="label">Hours</div></div>
+  <div class="counter-unit"><div class="num" id="cMins">0</div><div class="label">Minutes</div></div>
+  <div class="counter-unit"><div class="num" id="cSecs">0</div><div class="label">Seconds</div></div>
+</div>
+
+<!-- ── SPIN THE WHEEL ── -->
+<div class="section">
+  <h2 class="section-title">Let's <span>Spin</span> for It</h2>
+  <div class="card">
+    <div class="wheel-tabs">
+      <button class="tab-btn active" onclick="showWheel('game')">🎮 Games</button>
+      <button class="tab-btn" onclick="showWheel('drink')">🍹 Drinks</button>
+    </div>
+
+    <!-- GAME WHEEL -->
+    <div id="gameWheelSection" class="wheel-wrap">
+      <canvas id="gameWheel" width="300" height="300"></canvas>
+      <button class="spin-btn" id="gameSpinBtn" onclick="spinWheel('game')">Spin! 🎲</button>
+      <div class="result-box" id="gameResult"></div>
+    </div>
+
+    <!-- DRINK WHEEL -->
+    <div id="drinkWheelSection" class="wheel-wrap" style="display:none;">
+      <canvas id="drinkWheel" width="300" height="300"></canvas>
+      <button class="spin-btn" id="drinkSpinBtn" onclick="spinWheel('drink')">Spin! 🍹</button>
+      <div class="result-box" id="drinkResult"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── PHOTO SPOT ── -->
+<div class="section">
+  <h2 class="section-title">Our <span>Favorite</span> Photo</h2>
+  <div class="card">
+    <div class="photo-upload-area" id="uploadArea">
+      <input type="file" accept="image/*" id="photoInput" onchange="loadPhoto(event)" />
+      <span class="upload-icon">📷</span>
+      <p>Click to add your favorite photo together</p>
+    </div>
+    <img id="photoPreview" alt="Our photo" />
+  </div>
+</div>
+
+<!-- ── FOOTER ── -->
+<footer>
+  Made with 💕 for <strong>Austin & Lisa</strong> &nbsp;·&nbsp; June 18, 2025
+</footer>
+
+<script>
+  /* ── FLOATING HEARTS ── */
+  const heartsBg = document.getElementById('heartsBg');
+  const emojis = ['💕','🌸','✨','💗','🌷','💞','🫶'];
+  for (let i = 0; i < 18; i++) {
+    const h = document.createElement('span');
+    h.className = 'heart';
+    h.textContent = emojis[i % emojis.length];
+    h.style.left = Math.random() * 100 + 'vw';
+    h.style.animationDuration = (12 + Math.random() * 18) + 's';
+    h.style.animationDelay = (-Math.random() * 20) + 's';
+    h.style.fontSize = (0.8 + Math.random() * 1.2) + 'rem';
+    heartsBg.appendChild(h);
+  }
+
+  /* ── ANNIVERSARY COUNTER ── */
+  const anniversary = new Date('2025-06-18T00:00:00');
+  function updateCounter() {
+    const now = new Date();
+    const diff = now - anniversary;
+    if (diff < 0) { document.getElementById('counterBar').style.display = 'none'; return; }
+    const s = Math.floor(diff / 1000);
+    const m = Math.floor(s / 60);
+    const h = Math.floor(m / 60);
+    const d = Math.floor(h / 24);
+    document.getElementById('cDays').textContent  = d;
+    document.getElementById('cHours').textContent = h % 24;
+    document.getElementById('cMins').textContent  = m % 60;
+    document.getElementById('cSecs').textContent  = s % 60;
+  }
+  updateCounter();
+  setInterval(updateCounter, 1000);
+
+  /* ── WHEEL DATA ── */
+  const wheels = {
+    game: {
+      items: ['Uno', 'Jenga', 'Mario Kart', 'Would You Rather', 'Trivia', 'Connect 4', 'Truth or Dare', 'Codenames'],
+      colors: ['#F9D9E3','#D8C8F0','#C4E8DC','#FDEBD0','#D5EAF5','#F0D9C8','#E8D4F0','#D4EED4'],
+      canvas: 'gameWheel', result: 'gameResult', btn: 'gameSpinBtn'
+    },
+    drink: {
+      items: ['Margarita', 'Mojito', 'Rosé Wine', 'Strawberry Daiquiri', 'Lemonade Spritz', 'Moscow Mule', 'Sangria', 'Sparkling Water'],
+      colors: ['#FADADD','#D4EDDA','#D0E8F5','#FFE8CC','#E8D5F5','#FFF0CC','#D5F0E8','#FFD5D5'],
+      canvas: 'drinkWheel', result: 'drinkResult', btn: 'drinkSpinBtn'
+    }
+  };
+
+  /* ── DRAW WHEEL ── */
+  function drawWheel(type, angle) {
+    const w = wheels[type];
+    const canvas = document.getElementById(w.canvas);
+    const ctx = canvas.getContext('2d');
+    const cx = canvas.width / 2, cy = canvas.height / 2, r = cx - 8;
+    const arc = (2 * Math.PI) / w.items.length;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    w.items.forEach((item, i) => {
+      const start = angle + i * arc;
+      const end = start + arc;
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.arc(cx, cy, r, start, end);
+      ctx.closePath();
+      ctx.fillStyle = w.colors[i % w.colors.length];
+      ctx.fill();
+      ctx.strokeStyle = '#fff';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      // Label
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.rotate(start + arc / 2);
+      ctx.textAlign = 'right';
+      ctx.fillStyle = '#5A3A4A';
+      ctx.font = 'bold 12px Nunito, sans-serif';
+      ctx.fillText(item, r - 10, 5);
+      ctx.restore();
+    });
+
+    // Center circle
+    ctx.beginPath();
+    ctx.arc(cx, cy, 20, 0, 2 * Math.PI);
+    ctx.fillStyle = '#fff';
+    ctx.fill();
+    ctx.strokeStyle = '#E8A0B4';
+    ctx.lineWidth = 3;
+    ctx.stroke();
+
+    // Pointer
+    ctx.beginPath();
+    ctx.moveTo(cx + r + 6, cy);
+    ctx.lineTo(cx + r + 6 - 20, cy - 9);
+    ctx.lineTo(cx + r + 6 - 20, cy + 9);
+    ctx.closePath();
+    ctx.fillStyle = '#C0608A';
+    ctx.fill();
+  }
+
+  let angles = { game: 0, drink: 0 };
+  drawWheel('game', 0);
+  drawWheel('drink', 0);
+
+  /* ── SPIN ── */
+  function spinWheel(type) {
+    const w = wheels[type];
+    const btn = document.getElementById(w.btn);
+    const resultEl = document.getElementById(w.result);
+    btn.disabled = true;
+    resultEl.textContent = '';
+
+    const totalSpins = (5 + Math.random() * 5) * 2 * Math.PI;
+    const duration = 3000 + Math.random() * 1000;
+    const start = performance.now();
+    const startAngle = angles[type];
+
+    function ease(t) { return 1 - Math.pow(1 - t, 4); }
+
+    function frame(now) {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      angles[type] = startAngle + totalSpins * ease(progress);
+      drawWheel(type, angles[type]);
+      if (progress < 1) {
+        requestAnimationFrame(frame);
+      } else {
+        btn.disabled = false;
+        const arc = (2 * Math.PI) / w.items.length;
+        // Pointer is at 0 (right side of canvas), find which segment is there
+        const normalised = ((angles[type] % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI);
+        const idx = w.items.length - 1 - Math.floor(normalised / arc) % w.items.length;
+        resultEl.textContent = '🎉 ' + w.items[((idx % w.items.length) + w.items.length) % w.items.length] + '!';
+      }
+    }
+    requestAnimationFrame(frame);
+  }
+
+  /* ── TABS ── */
+  function showWheel(type) {
+    document.getElementById('gameWheelSection').style.display  = type === 'game'  ? 'flex' : 'none';
+    document.getElementById('drinkWheelSection').style.display = type === 'drink' ? 'flex' : 'none';
+    document.querySelectorAll('.tab-btn').forEach((b, i) => b.classList.toggle('active', (i === 0) === (type === 'game')));
+  }
+
+  /* ── PHOTO UPLOAD ── */
+  function loadPhoto(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = e => {
+      const preview = document.getElementById('photoPreview');
+      preview.src = e.target.result;
+      preview.style.display = 'block';
+      document.getElementById('uploadArea').style.paddingBottom = '0.5rem';
+    };
+    reader.readAsDataURL(file);
+  }
+</script>
+</body>
+</html>
